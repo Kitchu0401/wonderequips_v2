@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
@@ -1621,3 +1622,7 @@ Please refer to [this section](#resolving-heroku-deployment-errors).
 ## Something Missing?
 
 If you have ideas for more “How To” recipes that should be on this page, [let us know](https://github.com/facebookincubator/create-react-app/issues) or [contribute some!](https://github.com/facebookincubator/create-react-app/edit/master/packages/react-scripts/template/README.md)
+=======
+# WonderEquips_v2
+조잡한 Angularjs로 구성했던 WonderEquips를 React + Nodejs로 컨버전하기 위한 토이 프로젝트.
+>>>>>>> e3730b69378c0b355ce7b1fb0a0e2c79fa2721b7
