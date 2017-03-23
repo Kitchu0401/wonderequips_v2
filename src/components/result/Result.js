@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { ListGroupItem } from 'react-bootstrap';
 
-export default class Result extends Component {
-    render() {
-        return (
-            <div>
-                This is the place where results are displayed.
-            </div>
-        );
-    }
-};
+const Result = () => (
+    <ListGroupItem header='Header Text'>
+        Content Text
+    </ListGroupItem>
+);
+
+export default Result;

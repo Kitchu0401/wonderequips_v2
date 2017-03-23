@@ -1,0 +1,7 @@
+table.selector td {
+    cursor: pointer;
+    text-align: center;
+}
+
+table.selector.td3 td { width: 33%; }
+table.selector.td3 td { width: 16.6667%; }

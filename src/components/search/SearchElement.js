@@ -1,9 +1,22 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { Table } from 'react-bootstrap';
+import '../WonderEquips.css'
 
-export default class SearchElement extends Component {
-    render() {
-        return (
-            <div>This is SearchElement</div>
-        );
-    }
-};
+const SearchElement = () => (
+    <div>
+        <Table className='selector td6' bordered>
+            <tbody>
+                <tr>
+                    <td>All</td>
+                    <td>Fire</td>
+                    <td>Water</td>
+                    <td>Tree</td>
+                    <td>Light</td>
+                    <td>Darkness</td>
+                </tr>
+            </tbody>
+        </Table>
+    </div>
+);
+
+export default SearchElement;
