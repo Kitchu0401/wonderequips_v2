@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Grid, Col } from 'react-bootstrap';
 import { Navigator, Search, ResultList } from './';
 import * as service from '../services/service';
+import data from '../data/data';
 // import logo from '../logo.svg';
 // import './App.css';
 
@@ -18,6 +19,9 @@ export default class WonderEquips extends Component {
             },
             comments: []
         };
+
+        // DEBUG
+        console.log( data );
     }
 
     componentDidMount() {
@@ -34,7 +38,7 @@ export default class WonderEquips extends Component {
             service.getComments(postId)
         ]);
 
-        console.log(info);
+        // console.log(info);
 
         const { title, body } = info[0].data;
         const comments = info[1].data;
