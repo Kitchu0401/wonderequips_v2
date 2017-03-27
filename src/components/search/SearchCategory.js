@@ -1,6 +1,5 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
-import '../WonderEquips.css'
 
 const SearchCategory = (props) => (
     <div>
@@ -17,29 +16,3 @@ const SearchCategory = (props) => (
 );
 
 export default SearchCategory;
-
-// export default class SearchCategory extends React.Component {
-//     constructor(props) {
-//         super(props);
-//     }
-// 
-//     handleOnclick = (keyword) => {
-//         console.log('hayo: ', keyword);
-//     }
-//     
-//     render() {
-//         return (
-//             <div>
-//                 <Table className='selector td3' bordered>
-//                     <tbody>
-//                         <tr>
-//                             <td onClick={() => this.handleOnclick('test')}>Weapon</td>
-//                             <td>Armor</td>
-//                             <td>Accessory</td>
-//                         </tr>
-//                     </tbody>
-//                 </Table>
-//             </div>
-//         )
-//     }
-// };
