@@ -11,8 +11,8 @@ const defaultState = {
     searchOption: {
         part:           0,
         pattern:        [0, 0, 0, 0, 0, 0],
-        element:        0,
-        includeEmpty:   true
+        element:        -1,
+        includeEmpty:   false
     },
     resultList: []
 }
@@ -82,23 +82,27 @@ export default class WonderEquips extends Component {
     }
 
     search = () => {
+        let resultList = [];
+
         // reset pre-searched resultList
-        this.setState({ resultList: [] });
+        // this.setState({ resultList: [] });
 
         let opt = this.state.searchOption;
         for ( let idx in data.champs ) {
             let champ = data.champs[idx];
 
             // filter: element
-            if ( opt.element !== champ.element ) { continue; }
+            if ( opt.element >= 0 && opt.element !== champ.element ) { continue; }
 
             // filter: part
             let requirements = champ.skill[opt.part];
-            if ( !requirements && opt.includeEmpty
-                    && requirements && this._check(requirements)) {
-                this.setState({ resultList: update({ $push: champ }) });
+            if ( (!requirements && opt.includeEmpty)
+                    || (requirements && this._check(requirements)) ) {
+                resultList.push(champ);
             }
         }
+
+        this.setState({ resultList: resultList });
     }
 
     reset = () => {
@@ -107,8 +111,13 @@ export default class WonderEquips extends Component {
 
     // private functions
     _check = (requirements) => {
-        // TODO checking requirements
+        let pattern = this.state.searchOption.pattern;
 
+        // 해당 부위 장비의 스킬 해제를 위해 요구되는 패턴이 검색조건으로 충족되는지 확인하고,
+        // 충족되지 못한 패턴이 존재 할 경우 만능패턴(Star)로 충족 가능한지 확인하여 반환한다.
+        return requirements.reduce((prev, curr, idx) => {
+            return prev + Math.max(0, curr - pattern[idx]);
+        }, 0) <= pattern[5];
     }
 
     render() {
@@ -122,6 +131,7 @@ export default class WonderEquips extends Component {
                         <p>Part: {searchOption.part}</p>
                         <p>Pattern: {searchOption.pattern}</p>
                         <p>Element: {searchOption.element}</p>
+                        <p>ResultList.length: {resultList.length}</p>
                         <Search 
                             selectSearchOption={this.selectSearchOption}
                             searchOption={searchOption}

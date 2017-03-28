@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { times } from 'lodash';
 import { Table } from 'react-bootstrap';
 import SearchCategory from './SearchCategory';
 import SearchElement from './SearchElement';
@@ -9,12 +10,27 @@ export default class Search extends Component {
         return this.props.searchOption[prop] === value ? 'bold' : 'normal';
     }
 
+    getPatterns = () => {
+        return this.props.searchOption.pattern.map((v, i) => {
+            return times(v, (_v, _i) => (
+                <span>{i}</span>
+            ));
+        });
+    }
+
     render() {
         return (
             <div>
-                <SearchCategory selectSearchOption={this.props.selectSearchOption} getSelectedStyle={this.getSelectedStyle}/>
-                <SearchPattern selectSearchOption={this.props.selectSearchOption} getSelectedStyle={this.getSelectedStyle}/>
-                <SearchElement selectSearchOption={this.props.selectSearchOption} getSelectedStyle={this.getSelectedStyle}/>
+                <SearchCategory 
+                    selectSearchOption={this.props.selectSearchOption}
+                    getSelectedStyle={this.getSelectedStyle} />
+                <SearchPattern 
+                    selectSearchOption={this.props.selectSearchOption} 
+                    getSelectedStyle={this.getSelectedStyle} 
+                    patterns={this.getPatterns()} />
+                <SearchElement
+                    selectSearchOption={this.props.selectSearchOption}
+                    getSelectedStyle={this.getSelectedStyle} />
                 <Table className='selector' bordered>
                     <tbody>
                         <tr>
