@@ -15,11 +15,7 @@ const SearchPattern = (props) => (
                     <td onClick={() => props.selectSearchOption('pattern', 4)} style={{ 'fontWeight': props.getSelectedStyle('pattern', 4) }}>Heart</td>
                     <td onClick={() => props.selectSearchOption('pattern', 5)} style={{ 'fontWeight': props.getSelectedStyle('pattern', 5) }}>Star</td>
                 </tr>
-                <tr>
-                    <td colSpan="3">
-                        {props.patterns}
-                    </td>
-                </tr>
+                {props.patterns}
             </tbody>
         </Table>
     </div>

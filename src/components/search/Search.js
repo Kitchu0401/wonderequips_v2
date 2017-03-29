@@ -11,11 +11,19 @@ export default class Search extends Component {
     }
 
     getPatterns = () => {
-        return this.props.searchOption.pattern.map((v, i) => {
-            return times(v, (_v, _i) => (
-                <span>{i}</span>
-            ));
-        });
+        if ( this.props.searchOption.patternSelected ) {
+            return (
+                <tr>
+                    <td colSpan="3">
+                        {
+                            this.props.searchOption.pattern.map((v, i) => {
+                                return times(v, (_i) => ( <span key={_i}>{i}</span> ))
+                            })
+                        }
+                    </td>
+                </tr>
+            );
+        }
     }
 
     render() {
@@ -26,7 +34,7 @@ export default class Search extends Component {
                     getSelectedStyle={this.getSelectedStyle} />
                 <SearchPattern 
                     selectSearchOption={this.props.selectSearchOption} 
-                    getSelectedStyle={this.getSelectedStyle} 
+                    getSelectedStyle={this.getSelectedStyle}
                     patterns={this.getPatterns()} />
                 <SearchElement
                     selectSearchOption={this.props.selectSearchOption}

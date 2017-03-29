@@ -9,10 +9,11 @@ import data from '../data/data';
 
 const defaultState = {
     searchOption: {
-        part:           0,
-        pattern:        [0, 0, 0, 0, 0, 0],
-        element:        -1,
-        includeEmpty:   false
+        part:               0,
+        pattern:            [0, 0, 0, 0, 0, 0],
+        element:            -1,
+        patternSelected:    false,
+        includeEmpty:       false
     },
     resultList: []
 }
@@ -65,12 +66,17 @@ export default class WonderEquips extends Component {
             let sum = this.state.searchOption.pattern.reduce((p, c) => { return p + c; }, 0);
             if ( sum >= 3 ) { return; }
 
-            this.setState({ searchOption: update(
-                this.state.searchOption,
-                { [prop]: {
-                    [value]: { $set: this.state.searchOption[prop][value] + 1 } }
-                }
-            )});
+            this.setState({ 
+                searchOption: update(
+                    this.state.searchOption,
+                    { 
+                        [prop]: {
+                            [value]: { $set: this.state.searchOption[prop][value] + 1 }
+                        },
+                        patternSelected: { $set: true }
+                    }
+                )
+            });
         }
         // 부위 및 속성은 $set
         else {
@@ -120,18 +126,19 @@ export default class WonderEquips extends Component {
         }, 0) <= pattern[5];
     }
 
+    // <p>Part: {searchOption.part}</p>
+    // <p>Pattern: {searchOption.pattern}</p>
+    // <p>Element: {searchOption.element}</p>
+    // <p>ResultList.length: {resultList.length}</p>
+
     render() {
         const { searchOption, resultList } = this.state;
-
         return (
             <div>
                 <Navigator />
                 <Grid>
                     <Col sm={12} md={10} mdOffset={1}>
-                        <p>Part: {searchOption.part}</p>
-                        <p>Pattern: {searchOption.pattern}</p>
-                        <p>Element: {searchOption.element}</p>
-                        <p>ResultList.length: {resultList.length}</p>
+                        
                         <Search 
                             selectSearchOption={this.selectSearchOption}
                             searchOption={searchOption}

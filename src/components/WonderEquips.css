@@ -5,3 +5,10 @@ table.selector td {
 
 table.selector.td3 td { width: 33%; }
 table.selector.td3 td { width: 16.6667%; }
+
+div.skill {
+    display: inline-block;
+    margin: 12px 8px;
+    width: 20%;
+    min-width: 120px;
+}
