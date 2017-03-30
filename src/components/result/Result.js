@@ -1,6 +1,7 @@
 import React from 'react';
-import { times } from 'lodash';
+// import { times } from 'lodash';
 import { ListGroupItem } from 'react-bootstrap';
+import SkillList from './SkillList';
 
 // export default class Result extends React.Component {
 //     render() {
@@ -30,17 +31,7 @@ const Result = (props) => (
     <ListGroupItem>
         <h3>{props.result.name}</h3>
         <div>
-            {
-                props.result.skill.map((req, i) => (
-                    <div className="panel skill" key={i}>
-                        {
-                            req.map((v, i) => {
-                                return times(v, (_i) => ( <span key={_i}>{i}</span> ))
-                            })
-                        }
-                    </div>
-                ))
-            }
+            <SkillList skillList={props.result.skill} />
         </div>
     </ListGroupItem>
 );
