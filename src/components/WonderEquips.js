@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import update from 'react-addons-update';
 import { Grid, Col } from 'react-bootstrap';
+import update from 'react-addons-update';
+import data from '../data/data';
 import { Navigator, Search, ResultList } from './';
 // import * as service from '../services/service';
-import data from '../data/data';
-// import logo from '../logo.svg';
-// import './App.css';
 
 const defaultState = {
+    watchList:  [],
     searchOption: {
         part:               0,
         pattern:            [0, 0, 0, 0, 0, 0],
@@ -61,6 +60,7 @@ export default class WonderEquips extends Component {
     // }
 
     selectSearchOption = (prop, value) => {
+        console.log( this );
         // 문양의 경우 i:종류, v:숫자의 배열로 처리
         if ( prop === 'pattern' ) {
             let sum = this.state.searchOption.pattern.reduce((p, c) => { return p + c; }, 0);
@@ -126,19 +126,13 @@ export default class WonderEquips extends Component {
         }, 0) <= pattern[5];
     }
 
-    // <p>Part: {searchOption.part}</p>
-    // <p>Pattern: {searchOption.pattern}</p>
-    // <p>Element: {searchOption.element}</p>
-    // <p>ResultList.length: {resultList.length}</p>
-
     render() {
-        const { searchOption, resultList } = this.state;
+        const { watchList, searchOption, resultList } = this.state;
         return (
             <div>
-                <Navigator />
+                <Navigator watchList={watchList}/>
                 <Grid>
                     <Col sm={12} md={10} mdOffset={1}>
-                        
                         <Search 
                             selectSearchOption={this.selectSearchOption}
                             searchOption={searchOption}

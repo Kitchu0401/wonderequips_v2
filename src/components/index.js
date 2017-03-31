@@ -5,7 +5,8 @@ import SearchElement from './search/SearchElement';
 import SearchPattern from './search/SearchPattern';
 import ResultList from './result/ResultList';
 import Result from './result/Result';
-import Mark from './etc/Mark'
+import Mark from './etc/Mark';
+import WatchListModal from './modal/WatchListModal';
 
 export {
     Navigator,
@@ -15,5 +16,6 @@ export {
     SearchPattern,
     ResultList,
     Result,
-    Mark
+    Mark,
+    WatchListModal
 };

@@ -1055,4 +1055,9 @@ const data = {
 
 };
 
+// default sorting
+// data.champs.sort((prev, curr) => {
+// 	return prev.name > curr.name;
+// });
+
 export default data;
