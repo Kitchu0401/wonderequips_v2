@@ -6,6 +6,7 @@ import { Navigator, Search, ResultList } from './';
 // import * as service from '../services/service';
 
 const defaultState = {
+    watchIds: [],
     watchList:  [],
     searchOption: {
         part:               0,
@@ -60,7 +61,6 @@ export default class WonderEquips extends Component {
     // }
 
     selectSearchOption = (prop, value) => {
-        console.log( this );
         // 문양의 경우 i:종류, v:숫자의 배열로 처리
         if ( prop === 'pattern' ) {
             let sum = this.state.searchOption.pattern.reduce((p, c) => { return p + c; }, 0);
