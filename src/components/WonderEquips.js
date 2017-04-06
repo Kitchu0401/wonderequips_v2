@@ -5,6 +5,8 @@ import { Grid, Col } from 'react-bootstrap';
 import { Navigator, Search, ResultList } from './';
 import data from '../data/data';
 
+const STORE_KEY_WATCH_IDS = 'wonderequips-watch-ids';
+
 const defaultState = {
     champList:  [],
     searchOption: {
@@ -28,15 +30,18 @@ export default class WonderEquips extends React.Component {
         let champList = data.champs;
 
         // extract watchIds from localStorage and apply to champList
-
-        this.setState({
-            champList: champList
+        (JSON.parse(localStorage.getItem(STORE_KEY_WATCH_IDS)) || []).forEach((id) => {
+            champList.find((champ) => { return champ.id === id; }).watched = true;
         });
+
+        this.setState({ champList: champList });
     }
 
     /**
      * 주시 챔피언 목록에 선택한 챔피언을 추가한다.
      * 이미 추가되어 있는 경우 선택한 챔피언을 제거한다.
+     * 
+     * 이후 html5.localStorage에 watchIds를 저장한다.
      */
     toggleWatchId = (id) => {
         let targetIdx = this.state.champList.findIndex((champ, index) => {
@@ -52,6 +57,14 @@ export default class WonderEquips extends React.Component {
                     }
                 }
             )
+        }, () => {
+            // save watchIds to localStorage
+            let watchIds = this.state.champList.reduce((prev, champ) => {
+                if ( champ.watched ) prev.push(champ.id);
+                return prev;
+            }, []);
+
+            localStorage.setItem(STORE_KEY_WATCH_IDS, JSON.stringify(watchIds));
         });
     }
 

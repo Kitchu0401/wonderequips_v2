@@ -46,7 +46,14 @@ export default class WatchListModal extends React.Component {
     render() {
         return (
             <NavItem eventKey={1} onClick={() => this.toggleShow()}>
-                Watched <Badge>0</Badge>
+                Watched 
+                <Badge>
+                    { 
+                        this.props.champList.reduce((prev, curr) => {
+                            return prev += curr.watched ? 1 : 0;
+                        }, 0)
+                    }
+                </Badge>
 
                 <Modal show={this.state.show} onHide={this.toggleShow}>
                     <Modal.Header closeButton>
