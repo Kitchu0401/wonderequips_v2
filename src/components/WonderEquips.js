@@ -1,14 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import axios from 'axios';
-import { Grid, Col } from 'react-bootstrap';
 import update from 'react-addons-update';
-import data from '../data/data';
+import { Grid, Col } from 'react-bootstrap';
 import { Navigator, Search, ResultList } from './';
-// import * as service from '../services/service';
+import data from '../data/data';
 
 const defaultState = {
-    watchIds: [],
-    watchList:  [],
+    champList:  [],
     searchOption: {
         part:               0,
         pattern:            [0, 0, 0, 0, 0, 0],
@@ -19,7 +17,7 @@ const defaultState = {
     resultList: []
 }
 
-export default class WonderEquips extends Component {
+export default class WonderEquips extends React.Component {
     constructor(props) {
         super(props);
 
@@ -27,40 +25,39 @@ export default class WonderEquips extends Component {
     }
 
     componentDidMount() {
-        // this.fetchPostInfo(1);
+        let champList = data.champs;
+
+        // extract watchIds from localStorage and apply to champList
+
+        this.setState({
+            champList: champList
+        });
     }
 
-    // // tutorial function
-    // // babel plug-in: transform-class-properties로 인해 this 바인딩 불필요
-    // fetchPostInfo = async (postId) => {
-    //     this.setState({ isFetching: true });
-    // 
-    //     const info = await Promise.all([
-    //         service.getPost(postId),
-    //         service.getComments(postId)
-    //     ]);
-    // 
-    //     // console.log(info);
-    // 
-    //     const { title, body } = info[0].data;
-    //     const comments = info[1].data;
-    //     
-    //     this.setState({
-    //         postId: postId,
-    //         isFetching: false,
-    //         post: {
-    //             title:  title,
-    //             body:   body
-    //         },
-    //         comments: comments
-    //     });
-    // 
-    //     // const post = await service.getPost(postId);
-    //     // console.log( post );
-    //     // const comments = await service.getComments(postId);
-    //     // console.log( comments );
-    // }
+    /**
+     * 주시 챔피언 목록에 선택한 챔피언을 추가한다.
+     * 이미 추가되어 있는 경우 선택한 챔피언을 제거한다.
+     */
+    toggleWatchId = (id) => {
+        let targetIdx = this.state.champList.findIndex((champ, index) => {
+            return champ.id === id;
+        });
 
+        this.setState({
+            champList: update(
+                this.state.champList,
+                {
+                    [targetIdx]: {
+                        watched: { $set: !this.state.champList[targetIdx].watched }
+                    }
+                }
+            )
+        });
+    }
+
+    /**
+     * 챔피언 목록 검색 옵션을 선택한다.
+     */
     selectSearchOption = (prop, value) => {
         // 문양의 경우 i:종류, v:숫자의 배열로 처리
         if ( prop === 'pattern' ) {
@@ -81,13 +78,18 @@ export default class WonderEquips extends Component {
         }
         // 부위 및 속성은 $set
         else {
-            this.setState({ searchOption: update(
-                this.state.searchOption,
-                { [prop]: { $set: value } }
-            )});
+            this.setState({ 
+                searchOption: update(
+                    this.state.searchOption,
+                    { [prop]: { $set: value } }
+                )
+            });
         }
     }
 
+    /**
+     * 선택한 검색옵션과 일치하는 검색결과를 표시한다.
+     */
     search = () => {
         // Send message to server before search.
         axios.post('/api/message', { message: 'Search tried.' })
@@ -99,9 +101,9 @@ export default class WonderEquips extends Component {
         // reset pre-searched resultList
         // this.setState({ resultList: [] });
 
-        let opt = this.state.searchOption;
-        for ( let idx in data.champs ) {
-            let champ = data.champs[idx];
+        let { champList, opt } = this.state;
+        for ( let idx in champList ) {
+            let champ = champList[idx];
 
             // filter: element
             if ( opt.element >= 0 && opt.element !== champ.element ) { continue; }
@@ -117,11 +119,19 @@ export default class WonderEquips extends Component {
         this.setState({ resultList: resultList });
     }
 
+    /**
+     * 선택한 검색옵션을 초기화한다.
+     */
     reset = () => {
         this.setState(defaultState);
     }
 
-    // private functions
+    // 
+
+    /**
+     * Private functions:
+     *  해당 패턴이 검색조건으로 충족하는지 여부를 반환한다.
+     */
     _check = (requirements) => {
         let pattern = this.state.searchOption.pattern;
 
@@ -133,10 +143,12 @@ export default class WonderEquips extends Component {
     }
 
     render() {
-        const { watchIds, watchList, searchOption, resultList } = this.state;
+        const { champList, searchOption, resultList } = this.state;
         return (
             <div>
-                <Navigator watchIds={watchIds} watchList={watchList}/>
+                <Navigator
+                    champList={champList}
+                    toggleWatchId={this.toggleWatchId} />
                 <Grid>
                     <Col sm={12} md={10} mdOffset={1}>
                         <Search 

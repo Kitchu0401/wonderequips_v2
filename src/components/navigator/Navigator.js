@@ -10,7 +10,9 @@ const Navigator = (props) => (
             </Navbar.Brand>
         </Navbar.Header>
         <Nav pullRight>
-            <WatchListModal watchList={props.watchList}/>
+            <WatchListModal
+                champList={props.champList}
+                toggleWatchId={props.toggleWatchId} />
             <NavItem eventKey={2} href="#">
                 Setting <Glyphicon glyph="cog" />
             </NavItem>

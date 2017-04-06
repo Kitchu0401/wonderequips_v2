@@ -1,17 +1,15 @@
 import React from 'react';
 import { Modal, NavItem, Badge, ListGroup, ListGroupItem, Glyphicon, FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap';
-import update from 'react-addons-update';
-import data from '../../data/data';
 
 const defaultState = {
     show: false,
-    watchList: data.champs
+    keyword: ''
 };
 
 const glyphiconStyle = {
     'color': 'green',
     'float': 'right'
-}
+};
 
 const FieldGroup = ({ id, label, help, ...props }) => (
     <FormGroup controlId={id}>
@@ -19,7 +17,7 @@ const FieldGroup = ({ id, label, help, ...props }) => (
         <FormControl {...props} />
         { help && <HelpBlock>{help}</HelpBlock> }
     </FormGroup>
-)
+);
 
 export default class WatchListModal extends React.Component {
     constructor(props) {
@@ -28,50 +26,29 @@ export default class WatchListModal extends React.Component {
         this.state = defaultState;
     }
 
-    open = () => {
-        this.setState({ show: true });
-    }
-
-    close = () => {
-        this.setState({ show: false });
-    }
-
-    toggleWatch = ({ target: { id: _id } }) => {
-        let targetIndex = this.state.watchList.findIndex((champ) => { return champ.id === Number(_id); });
-        let watchList = update(
-            this.state.watchList,
-            {
-                [targetIndex]: {
-                    watched: { $set: !this.state.watchList[targetIndex].watched }
-                }
-            }
-        );
-
-        // TODO need to adjust watchIds for user data
-        this.setState({ watchList: watchList });
-    }
-
-    handleWatchListChange = ({ target: { value: _value } }) => {
-        let watchList = !_value
-            ? data.champs
-            : data.champs.filter((champ, index) => {
-                return champ.name.indexOf(_value) === 0;
-            });
-
-        this.setState({
-            watchList: update(
-                this.state.watchList,
-                { $set: watchList }
-            )
+    /**
+     * 모달을 표시하거나 감춘다.
+     */
+    toggleShow = () => {
+        this.setState({ 
+            show:       !this.state.show,
+            keyword:    ''
         });
+    }
+
+    /**
+     * 검색창에 입력된 검색어를 state에 반영한다.
+     */
+    handleWatchListChange = ({ target: { value: _value } }) => {
+        this.setState({ keyword: _value });
     }
 
     render() {
         return (
-            <NavItem eventKey={1} onClick={() => this.open()}>
-                Watched <Badge>{this.props.watchList.length}</Badge>
+            <NavItem eventKey={1} onClick={() => this.toggleShow()}>
+                Watched <Badge>0</Badge>
 
-                <Modal show={this.state.show} onHide={this.close}>
+                <Modal show={this.state.show} onHide={this.toggleShow}>
                     <Modal.Header closeButton>
                         <FieldGroup
                             id="champName"
@@ -83,12 +60,17 @@ export default class WatchListModal extends React.Component {
                     <Modal.Body>
                         <ListGroup >
                             {  
-                                this.state.watchList.map((champ, index) => (
-                                    <ListGroupItem key={index} id={champ.id} onClick={this.toggleWatch}>
-                                        {champ.name}
-                                        {champ.watched ? <Glyphicon glyph="ok" style={glyphiconStyle}/> : undefined}
-                                    </ListGroupItem>
-                                ))
+                                this.props.champList
+                                    .filter((champ, index) => {
+                                        // name search에 해당하는 챔피언만 출력
+                                        return !this.state.keyword || champ.name.indexOf(this.state.keyword) > -1;
+                                    })
+                                    .map((champ, index) => (
+                                        <ListGroupItem key={index} id={champ.id} onClick={() => { this.props.toggleWatchId(champ.id); }}>
+                                            {champ.name}
+                                            {champ.watched ? <Glyphicon glyph="ok" style={glyphiconStyle}/> : undefined}
+                                        </ListGroupItem>
+                                    ))
                             }
                         </ListGroup>
                     </Modal.Body>
@@ -98,25 +80,3 @@ export default class WatchListModal extends React.Component {
     }
 
 }
-
-// index % 2 === 0 
-//     ? <ListGroupItem key={index} onClick={() => this.toggleWatch(champ.id)}>
-//         {champ.name}
-//     </ListGroupItem>
-//     : <ListGroupItem key={index} onClick={() => this.toggleWatch(champ.id)}>
-//         {champ.name}
-//         <Glyphicon glyph="ok" style={glyphiconStyle}/>
-//     </ListGroupItem>
-
-// const WatchListModal = (props) => (
-//     <Modal show={props.show}>
-//         <Modal.Header closeButton>
-//             <Modal.Title>Modal Heading</Modal.Title>
-//         </Modal.Header>
-//         <Modal.Body>
-//             <h4>Testing..</h4>
-//         </Modal.Body>
-//     </Modal>
-// );
-// 
-// export default WatchListModal;
