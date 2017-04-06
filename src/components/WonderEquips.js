@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import { Grid, Col } from 'react-bootstrap';
 import update from 'react-addons-update';
 import data from '../data/data';
@@ -88,6 +89,11 @@ export default class WonderEquips extends Component {
     }
 
     search = () => {
+        // Send message to server before search.
+        axios.post('/api/message', { message: 'Search tried.' })
+            .then((res) => { console.log(res); })
+            .catch((err) => { console.error(err); });
+
         let resultList = [];
 
         // reset pre-searched resultList
@@ -127,10 +133,10 @@ export default class WonderEquips extends Component {
     }
 
     render() {
-        const { watchList, searchOption, resultList } = this.state;
+        const { watchIds, watchList, searchOption, resultList } = this.state;
         return (
             <div>
-                <Navigator watchList={watchList}/>
+                <Navigator watchIds={watchIds} watchList={watchList}/>
                 <Grid>
                     <Col sm={12} md={10} mdOffset={1}>
                         <Search 
