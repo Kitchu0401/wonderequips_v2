@@ -5,7 +5,10 @@ import { Grid, Col } from 'react-bootstrap';
 import { Navigator, Search, ResultList } from './';
 import data from '../data/data';
 
-const STORE_KEY_WATCH_IDS = 'wonderequips-watch-ids';
+const LOCAL_STORAGE_KEY = {
+    WATCH_IDS:      'wonderequips-watch-ids',
+    INCLUDE_EMPTY:  'wonderequips-include-empty'
+};
 
 const defaultState = {
     champList:  [],
@@ -27,14 +30,25 @@ export default class WonderEquips extends React.Component {
     }
 
     componentDidMount() {
-        let champList = data.champs;
+        let champList       = data.champs;
+        let includeEmpty    = false;
 
         // extract watchIds from localStorage and apply to champList
-        (JSON.parse(localStorage.getItem(STORE_KEY_WATCH_IDS)) || []).forEach((id) => {
+        (JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY.WATCH_IDS)) || []).forEach((id) => {
             champList.find((champ) => { return champ.id === id; }).watched = true;
         });
 
-        this.setState({ champList: champList });
+        includeEmpty = localStorage.getItem(LOCAL_STORAGE_KEY.INCLUDE_EMPTY) || false;
+
+        this.setState({ 
+            champList: champList,
+            searchOption: update(
+                this.state.searchOption,
+                {
+                    includeEmpty: { $set: includeEmpty }
+                }
+            )
+        });
     }
 
     /**
@@ -64,7 +78,18 @@ export default class WonderEquips extends React.Component {
                 return prev;
             }, []);
 
-            localStorage.setItem(STORE_KEY_WATCH_IDS, JSON.stringify(watchIds));
+            localStorage.setItem(LOCAL_STORAGE_KEY.WATCH_IDS, JSON.stringify(watchIds));
+        });
+    }
+
+    toggleIncludeEmpty = () => {
+        this.setState({
+            searchOption: update(
+                this.state.searchOption,
+                {
+                    includeEmpty: { $set: !this.state.searchOption.includeEmpty }
+                }
+            )
         });
     }
 
@@ -161,7 +186,9 @@ export default class WonderEquips extends React.Component {
             <div>
                 <Navigator
                     champList={champList}
-                    toggleWatchId={this.toggleWatchId} />
+                    includeEmpty={searchOption.includeEmpty}
+                    toggleWatchId={this.toggleWatchId}
+                    toggleIncludeEmpty={this.toggleIncludeEmpty} />
                 <Grid>
                     <Col sm={12} md={10} mdOffset={1}>
                         <Search 
