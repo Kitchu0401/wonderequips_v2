@@ -10,7 +10,7 @@ router.get('/test', (req, res) => {
 // CREATE
 router.post('/message', function(req, res){
     var message = new Message();
-    message.message = req.body.message;
+    message.content = req.body.message;
 
     message.save(function(err){
         if(err){
