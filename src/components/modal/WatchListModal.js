@@ -47,7 +47,7 @@ export default class WatchListModal extends React.Component {
         return (
             <NavItem eventKey={1} onClick={() => this.toggleShow()}>
                 Watched 
-                <Badge>
+                <Badge style={{ 'marginLeft': '6px' }}>
                     { 
                         this.props.champList.reduce((prev, curr) => {
                             return prev += curr.watched ? 1 : 0;

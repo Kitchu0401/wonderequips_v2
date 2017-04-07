@@ -82,6 +82,11 @@ export default class WonderEquips extends React.Component {
         });
     }
 
+    /**
+     * 선택한 검색 부위에 스킬이 존재하지 않는 챔피언의 결과 포함 여부를 선택 또는 해제한다.
+     * 
+     * 이후 html5.localStorage에 includeEmpty를 저장한다.
+     */
     toggleIncludeEmpty = () => {
         this.setState({
             searchOption: update(
@@ -90,6 +95,8 @@ export default class WonderEquips extends React.Component {
                     includeEmpty: { $set: !this.state.searchOption.includeEmpty }
                 }
             )
+        }, () => {
+            localStorage.setItem(LOCAL_STORAGE_KEY.INCLUDE_EMPTY, this.state.searchOption.includeEmpty);
         });
     }
 
@@ -129,6 +136,12 @@ export default class WonderEquips extends React.Component {
      * 선택한 검색옵션과 일치하는 검색결과를 표시한다.
      */
     search = () => {
+        // pattern이 선택되지 않은 경우 검색하지 않는다.
+        if ( !this.state.searchOption.patternSelected ) { return; }
+
+        // XXX Debug
+        console.debug( this.state.searchOption );
+
         // Send message to server before search.
         axios.post('/api/message', { message: 'Search tried.' })
             .then((res) => { console.log(res); })
@@ -139,16 +152,16 @@ export default class WonderEquips extends React.Component {
         // reset pre-searched resultList
         // this.setState({ resultList: [] });
 
-        let { champList, opt } = this.state;
+        let { champList, searchOption } = this.state;
         for ( let idx in champList ) {
             let champ = champList[idx];
 
             // filter: element
-            if ( opt.element >= 0 && opt.element !== champ.element ) { continue; }
+            if ( searchOption.element >= 0 && searchOption.element !== champ.element ) { continue; }
 
             // filter: part
-            let requirements = champ.skill[opt.part];
-            if ( (!requirements && opt.includeEmpty)
+            let requirements = champ.skill[searchOption.part];
+            if ( (!requirements && searchOption.includeEmpty)
                     || (requirements && this._check(requirements)) ) {
                 resultList.push(champ);
             }
@@ -168,7 +181,7 @@ export default class WonderEquips extends React.Component {
 
     /**
      * Private functions:
-     *  해당 패턴이 검색조건으로 충족하는지 여부를 반환한다.
+     *  해당 패턴이 검색조건으로 충족되는지 여부를 반환한다.
      */
     _check = (requirements) => {
         let pattern = this.state.searchOption.pattern;

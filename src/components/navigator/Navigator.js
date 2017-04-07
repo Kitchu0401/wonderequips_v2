@@ -1,6 +1,11 @@
 import React from 'react';
-import { Navbar, Nav, NavItem, Glyphicon } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown, MenuItem, Glyphicon } from 'react-bootstrap';
 import { WatchListModal } from '../index';
+
+const glyphiconStyle = {
+    'color': 'green',
+    'float': 'right'
+};
 
 const Navigator = (props) => (
     <Navbar>
@@ -13,9 +18,12 @@ const Navigator = (props) => (
             <WatchListModal
                 champList={props.champList}
                 toggleWatchId={props.toggleWatchId} />
-            <NavItem eventKey={2} href="#">
-                Setting <Glyphicon glyph="cog" />
-            </NavItem>
+            <NavDropdown eventKey={2} title="Setting" id="basic-nav-dropdown">
+                <MenuItem eventKey={2.1} onClick={props.toggleIncludeEmpty}>
+                    Include empty
+                    {props.includeEmpty ? <Glyphicon glyph="ok" style={glyphiconStyle}/> : undefined}
+                </MenuItem>
+            </NavDropdown>
         </Nav>
     </Navbar>
 );
