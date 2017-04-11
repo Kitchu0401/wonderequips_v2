@@ -15,7 +15,9 @@ export default class Search extends Component {
                     <td colSpan="3">
                         {
                             this.props.searchOption.pattern.map((v, i) => {
-                                return times(v, (_i) => ( <Mark key={_i} pattern={i} /> ))
+                                return times(v, (_i) => (
+                                    <Mark key={_i} pattern={i} cancleSearchPattern={this.props.cancleSearchPattern} />
+                                ));
                             })
                         }
                     </td>
@@ -31,7 +33,7 @@ export default class Search extends Component {
                     selectSearchOption={this.props.selectSearchOption}
                     getSelectedStyle={this.getSelectedStyle} />
                 <SearchPattern 
-                    selectSearchOption={this.props.selectSearchOption} 
+                    selectSearchOption={this.props.selectSearchOption}
                     getSelectedStyle={this.getSelectedStyle}
                     patterns={this.getPatterns()} />
                 <SearchElement

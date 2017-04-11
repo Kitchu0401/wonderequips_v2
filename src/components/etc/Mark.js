@@ -6,8 +6,8 @@ const getImgPath = (pattern) => {
     return `${process.env.PUBLIC_URL}/image/${patterns[pattern]}.png`;
 };
 
-const Mark = ({ pattern }) => (
-    <Image src={getImgPath(pattern)} />
+const Mark = ({ pattern, cancleSearchPattern }) => (
+    <Image src={getImgPath(pattern)} alt='Pattern' onClick={() => { cancleSearchPattern(pattern); }} />
 );
 
 export default Mark;

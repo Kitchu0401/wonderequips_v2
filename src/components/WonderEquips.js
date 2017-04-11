@@ -38,7 +38,7 @@ export default class WonderEquips extends React.Component {
             champList.find((champ) => { return champ.id === id; }).watched = true;
         });
 
-        includeEmpty = localStorage.getItem(LOCAL_STORAGE_KEY.INCLUDE_EMPTY) || false;
+        includeEmpty = localStorage.getItem(LOCAL_STORAGE_KEY.INCLUDE_EMPTY) === 'true' || false;
 
         this.setState({ 
             champList: champList,
@@ -133,24 +133,40 @@ export default class WonderEquips extends React.Component {
     }
 
     /**
+     * 챔피언 목록 검색 옵션 중 선택된 문양을 검색 조건에서 제외한다.
+     */
+    cancleSearchPattern = (patternIndex) => {
+        let _pattern        = this.state.searchOption.pattern;
+        let pattern         = update(_pattern, { [patternIndex]: { $set: Math.max(_pattern[patternIndex] - 1, 0) } }); 
+        let patternSelected = pattern.some((value) => { return value > 0 });
+
+        this.setState({
+            searchOption: update(
+                this.state.searchOption,
+                { 
+                    pattern: { $set: pattern },
+                    patternSelected: { $set: patternSelected }
+                }
+            )
+        });
+    }
+
+    /**
      * 선택한 검색옵션과 일치하는 검색결과를 표시한다.
      */
     search = () => {
         // pattern이 선택되지 않은 경우 검색하지 않는다.
         if ( !this.state.searchOption.patternSelected ) { return; }
 
-        // XXX Debug
-        console.debug( this.state.searchOption );
+        // DEBUG
+        // console.debug( this.state.searchOption );
 
         // Send message to server before search.
         axios.post('/api/message', { message: 'Search tried.' })
-            .then((res) => { console.log(res); })
+            .then((res) => { /* console.log(res); */ })
             .catch((err) => { console.error(err); });
 
         let resultList = [];
-
-        // reset pre-searched resultList
-        // this.setState({ resultList: [] });
 
         let { champList, searchOption } = this.state;
         for ( let idx in champList ) {
@@ -167,6 +183,13 @@ export default class WonderEquips extends React.Component {
             }
         }
 
+        // post-process: sort resultList by order (watched first)
+        resultList.sort((prev, curr) => {
+            if ( prev.watched === true && !curr.watched ) return -1;
+            if ( curr.watched === true && !prev.watched ) return 1;
+            return 0;
+        });
+
         this.setState({ resultList: resultList });
     }
 
@@ -174,7 +197,13 @@ export default class WonderEquips extends React.Component {
      * 선택한 검색옵션을 초기화한다.
      */
     reset = () => {
-        this.setState(defaultState);
+        // https://github.com/Kitchu0401/wonderequips_v2/issues/1
+        // this.setState(defaultState);
+
+        this.setState({
+            searchOption:   defaultState.searchOption,
+            resultList:     []
+        });
     }
 
     // 
@@ -206,6 +235,7 @@ export default class WonderEquips extends React.Component {
                     <Col sm={12} md={10} mdOffset={1}>
                         <Search 
                             selectSearchOption={this.selectSearchOption}
+                            cancleSearchPattern={this.cancleSearchPattern}
                             searchOption={searchOption}
                             search={this.search}
                             reset={this.reset} />
