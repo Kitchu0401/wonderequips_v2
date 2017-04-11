@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import update from 'react-addons-update';
 import { Grid, Col } from 'react-bootstrap';
-import { Navigator, Search, ResultList } from './';
+import { Navigator, Footer, Search, ResultList } from './';
 import data from '../data/data';
 
 const LOCAL_STORAGE_KEY = {
@@ -206,7 +206,12 @@ export default class WonderEquips extends React.Component {
         });
     }
 
-    // 
+    /**
+     * 서버로 메시지를 전송한다.
+     */
+    sendMessage = () => {
+        console.debug('sendMessage called.');
+    }
 
     /**
      * Private functions:
@@ -242,6 +247,7 @@ export default class WonderEquips extends React.Component {
                         <ResultList resultList={resultList} />
                     </Col>
                 </Grid>
+                <Footer sendMessage={this.sendMessage}/>
             </div>
         );
     }

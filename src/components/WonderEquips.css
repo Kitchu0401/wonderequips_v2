@@ -23,6 +23,10 @@ div.skill img {
     margin-right: 6px;
 }
 
+.testCssClass {
+    margin-right: 6px;
+}
+
 /* utility classes */
 .align-center {
     text-align: center;

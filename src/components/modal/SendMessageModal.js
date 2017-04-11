@@ -1,27 +1,12 @@
 import React from 'react';
-import { Modal, NavItem, Badge, ListGroup, ListGroupItem, Glyphicon } from 'react-bootstrap';
-import { FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap';
-// import FieldGroup from '../index';
+import { Modal, NavItem, ListGroup, ListGroupItem, Glyphicon } from 'react-bootstrap';
+import FieldGroup from '../index';
 
 const defaultState = {
-    show: false,
-    keyword: ''
+    show: false
 };
 
-const glyphiconStyle = {
-    'color': 'green',
-    'float': 'right'
-};
-
-const FieldGroup = ({ id, label, help, ...props }) => (
-    <FormGroup controlId={id}>
-        <ControlLabel>{label}</ControlLabel>
-        <FormControl {...props} />
-        { help && <HelpBlock>{help}</HelpBlock> }
-    </FormGroup>
-);
-
-export default class WatchListModal extends React.Component {
+export default class SendMessageModal extends React.Component {
     constructor(props) {
         super(props);
 
@@ -47,15 +32,8 @@ export default class WatchListModal extends React.Component {
 
     render() {
         return (
-            <NavItem eventKey={1} onClick={() => this.toggleShow()}>
-                Watched 
-                <Badge style={{ 'marginLeft': '6px' }}>
-                    { 
-                        this.props.champList.reduce((prev, curr) => {
-                            return prev += curr.watched ? 1 : 0;
-                        }, 0)
-                    }
-                </Badge>
+            <NavItem eventKey={9} onClick={() => this.toggleShow()}>
+                Written by <strong>Kitchu</strong>
 
                 <Modal show={this.state.show} onHide={this.toggleShow}>
                     <Modal.Header closeButton>
@@ -77,7 +55,7 @@ export default class WatchListModal extends React.Component {
                                     .map((champ, index) => (
                                         <ListGroupItem key={index} id={champ.id} onClick={() => { this.props.toggleWatchId(champ.id); }}>
                                             {champ.name}
-                                            {champ.watched ? <Glyphicon glyph="ok" style={glyphiconStyle}/> : undefined}
+                                            {champ.watched ? <Glyphicon glyph="ok" /> : undefined}
                                         </ListGroupItem>
                                     ))
                             }
