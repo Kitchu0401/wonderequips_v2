@@ -1,6 +1,6 @@
 import React from 'react';
-import { times } from 'lodash';
 import { Panel } from 'react-bootstrap';
+import { times } from 'lodash';
 import { Mark } from '../index';
 
 const headers = ['Weapon', 'Armor', 'Accessory'];

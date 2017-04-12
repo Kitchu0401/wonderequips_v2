@@ -17,6 +17,9 @@ table.selector.td3 td img {
     margin: 8px;
 }
 
+.result span { margin-right: 16px; }
+.result span.grade img { width: 16px; height: 16px; }
+
 /* SkillList */
 div.skill {
     display: inline-block;
@@ -28,6 +31,12 @@ div.skill img {
     width: 24px;
     height: 24px;
     margin-right: 6px;
+}
+
+/* Etc */
+span.glyphicon.glyphicon-ok {
+    color: green;
+    float: right;
 }
 
 /* Footer Navbar */

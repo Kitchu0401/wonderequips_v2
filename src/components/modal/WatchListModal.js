@@ -8,11 +8,6 @@ const defaultState = {
     keyword: ''
 };
 
-const glyphiconStyle = {
-    'color': 'green',
-    'float': 'right'
-};
-
 const FieldGroup = ({ id, label, help, ...props }) => (
     <FormGroup controlId={id}>
         <ControlLabel>{label}</ControlLabel>
@@ -77,7 +72,7 @@ export default class WatchListModal extends React.Component {
                                     .map((champ, index) => (
                                         <ListGroupItem key={index} id={champ.id} onClick={() => { this.props.toggleWatchId(champ.id); }}>
                                             {champ.name}
-                                            {champ.watched ? <Glyphicon glyph="ok" style={glyphiconStyle}/> : undefined}
+                                            {champ.watched ? <Glyphicon glyph="ok" /> : undefined}
                                         </ListGroupItem>
                                     ))
                             }
