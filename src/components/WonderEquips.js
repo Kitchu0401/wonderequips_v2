@@ -2,8 +2,17 @@ import React from 'react';
 import axios from 'axios';
 import update from 'react-addons-update';
 import { Grid, Col } from 'react-bootstrap';
-import { Navigator, Footer, Search, ResultList } from './';
+import { Navigator, MessageList, Footer, Search, ResultList } from './index';
 import data from '../data/data';
+
+// XXX TEST
+const testMessages = [
+    { id: '1', message: 'test#1' },
+    { id: '2', message: 'test#2' },
+    { id: '3', message: 'test#3' },
+    { id: '4', message: 'test#4' },
+    { id: '5', message: 'test#5' },
+];
 
 const LOCAL_STORAGE_KEY = {
     WATCH_IDS:      'wonderequips-watch-ids',
@@ -11,7 +20,7 @@ const LOCAL_STORAGE_KEY = {
 };
 
 const defaultState = {
-    champList:  [],
+    champList:              [],
     searchOption: {
         part:               0,
         pattern:            [0, 0, 0, 0, 0, 0],
@@ -19,7 +28,8 @@ const defaultState = {
         patternSelected:    false,
         includeEmpty:       false
     },
-    resultList: []
+    resultList:             [],
+    messageList:            []
 }
 
 export default class WonderEquips extends React.Component {
@@ -47,7 +57,8 @@ export default class WonderEquips extends React.Component {
                 {
                     includeEmpty: { $set: includeEmpty }
                 }
-            )
+            ),
+            messageList: testMessages
         });
     }
 
@@ -158,13 +169,8 @@ export default class WonderEquips extends React.Component {
         // pattern이 선택되지 않은 경우 검색하지 않는다.
         if ( !this.state.searchOption.patternSelected ) { return; }
 
-        // DEBUG
-        // console.debug( this.state.searchOption );
-
-        // Send message to server before search.
-        axios.post('/api/message', { message: 'Search tried.' })
-            .then((res) => { /* console.log(res); */ })
-            .catch((err) => { console.error(err); });
+        // Send log to server before search.
+        axios.post('/api/log', { type: 'Search' });
 
         let resultList = [];
 
@@ -209,8 +215,14 @@ export default class WonderEquips extends React.Component {
     /**
      * 서버로 메시지를 전송한다.
      */
-    sendMessage = (message) => {
-        console.debug('sendMessage called:', message);
+    sendMessage = (content) => {
+        console.debug('sendMessage called:', content);
+
+        // TODO send message
+        axios.post('/api/message', { content: content })
+            // TODO refresh messageList
+            .then((res) => { /* this.setState({ messageList: res.messageList }); */ })
+            .catch((err) => { console.error(err); });
     }
 
     /**
@@ -228,7 +240,7 @@ export default class WonderEquips extends React.Component {
     }
 
     render() {
-        const { champList, searchOption, resultList } = this.state;
+        const { champList, searchOption, resultList, messageList } = this.state;
         return (
             <div id="container-main">
                 <Navigator
@@ -247,7 +259,8 @@ export default class WonderEquips extends React.Component {
                         <ResultList resultList={resultList} />
                     </Col>
                 </Grid>
-                <Footer sendMessage={this.sendMessage}/>
+                <MessageList messageList={messageList} />
+                <Footer sendMessage={this.sendMessage} />
             </div>
         );
     }

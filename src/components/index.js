@@ -1,4 +1,5 @@
 import Navigator from './navigator/Navigator';
+import MessageList from './footer/MessageList';
 import Footer from './footer/Footer';
 import Search from './search/Search';
 import SearchCategory from './search/SearchCategory';
@@ -13,6 +14,7 @@ import SendMessageModal from './modal/SendMessageModal';
 
 export {
     Navigator,
+    MessageList,
     Footer,
     Search,
     SearchCategory,

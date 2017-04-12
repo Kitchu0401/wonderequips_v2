@@ -1,17 +1,18 @@
 import React from 'react';
 import { Navbar, Nav, NavItem, FormGroup, InputGroup, Button, FormControl } from 'react-bootstrap';
-// import FieldGroup from '../index';
 
 export default class Footer extends React.Component {
     
     handleKeyPress = (e) => {
         if ( e.key === 'Enter' ) {
+            if ( this.messageInput.value.length <= 0 ) { return; }
             this.props.sendMessage(this.messageInput.value);
             this.messageInput.value = '';    
         }
     };
 
     handleClickButton = (e) => {
+        if ( this.messageInput.value.length <= 0 ) { return; }
         this.props.sendMessage(this.messageInput.value);
         this.messageInput.value = '';
     }

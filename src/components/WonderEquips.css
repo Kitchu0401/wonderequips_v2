@@ -43,6 +43,22 @@ span.glyphicon.glyphicon-ok {
 @media (min-width: 769px) and (max-width: 992px) { #messageInput { width: 420px; } }
 @media (min-width: 993px) { #messageInput { width: 640px; } }
 
+/* Footer MessageList */
+#messageList {
+    position: fixed;
+    bottom: 50px;
+    width: 100%;
+}
+#messageList #messageListBtn {
+    border-color: #ddd;
+    border-style: solid;
+    border-width: 1px 0px 0px 0px;
+    cursor: pointer;
+    padding: 2px;
+}
+#messageList > .list-group { margin-bottom: 0px; }
+#messageList > .list-group > .list-group-item { border-radius: 0px; }
+
 /* utility classes */
 .align-center {
     text-align: center;
