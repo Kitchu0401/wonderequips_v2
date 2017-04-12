@@ -5,15 +5,6 @@ import { Grid, Col } from 'react-bootstrap';
 import { Navigator, MessageList, Footer, Search, ResultList } from './index';
 import data from '../data/data';
 
-// XXX TEST
-const testMessages = [
-    { id: '1', message: 'test#1' },
-    { id: '2', message: 'test#2' },
-    { id: '3', message: 'test#3' },
-    { id: '4', message: 'test#4' },
-    { id: '5', message: 'test#5' },
-];
-
 const LOCAL_STORAGE_KEY = {
     WATCH_IDS:      'wonderequips-watch-ids',
     INCLUDE_EMPTY:  'wonderequips-include-empty'
@@ -50,16 +41,34 @@ export default class WonderEquips extends React.Component {
 
         includeEmpty = localStorage.getItem(LOCAL_STORAGE_KEY.INCLUDE_EMPTY) === 'true' || false;
 
-        this.setState({ 
-            champList: champList,
-            searchOption: update(
-                this.state.searchOption,
-                {
-                    includeEmpty: { $set: includeEmpty }
-                }
-            ),
-            messageList: testMessages
-        });
+        // FIXME async & await 코드를 사용하여 모든 코드를 동기화 할 것
+        axios.get('/api/message')
+            .then((res) => {
+                console.debug("get('/api/message')", res);
+
+                this.setState({ 
+                    champList: champList,
+                    searchOption: update(
+                        this.state.searchOption,
+                        {
+                            includeEmpty: { $set: includeEmpty }
+                        }
+                    ),
+                    messageList: res.data.messageList
+                });
+            })
+            .catch((err) => { console.error(err); });
+        
+        // this.setState({ 
+        //     champList: champList,
+        //     searchOption: update(
+        //         this.state.searchOption,
+        //         {
+        //             includeEmpty: { $set: includeEmpty }
+        //         }
+        //     ),
+        //     messageList: res.messageList
+        // });
     }
 
     /**

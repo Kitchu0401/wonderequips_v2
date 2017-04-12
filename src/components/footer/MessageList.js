@@ -29,7 +29,7 @@ export default class MessageList extends React.Component {
                 <ListGroup style={this.getDisplay()}>
                     {
                         this.props.messageList.map((msg, idx) => {
-                            return ( <ListGroupItem key={msg.id}>[{msg.id}] {msg.message}</ListGroupItem> )
+                            return ( <ListGroupItem key={msg._id}>[{msg._id}] {msg.content}</ListGroupItem> )
                         })
                     }    
                 </ListGroup>
