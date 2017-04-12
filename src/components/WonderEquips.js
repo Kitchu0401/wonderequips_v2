@@ -209,8 +209,8 @@ export default class WonderEquips extends React.Component {
     /**
      * 서버로 메시지를 전송한다.
      */
-    sendMessage = () => {
-        console.debug('sendMessage called.');
+    sendMessage = (message) => {
+        console.debug('sendMessage called:', message);
     }
 
     /**
@@ -230,7 +230,7 @@ export default class WonderEquips extends React.Component {
     render() {
         const { champList, searchOption, resultList } = this.state;
         return (
-            <div>
+            <div id="container-main">
                 <Navigator
                     champList={champList}
                     includeEmpty={searchOption.includeEmpty}

@@ -1,8 +1,14 @@
+/* Root Container */
+div#container-main {
+    /* for Footer */
+    margin-bottom: 56px;
+}
+
+/* SearchOption */
 table.selector td {
     cursor: pointer;
     text-align: center;
 }
-
 table.selector.td3 td { width: 33%; }
 table.selector.td3 td { width: 16.6667%; }
 table.selector.td3 td img { 
@@ -11,6 +17,7 @@ table.selector.td3 td img {
     margin: 8px;
 }
 
+/* SkillList */
 div.skill {
     display: inline-block;
     margin: 12px 8px;
@@ -23,9 +30,9 @@ div.skill img {
     margin-right: 6px;
 }
 
-.testCssClass {
-    margin-right: 6px;
-}
+/* Footer Navbar */
+@media (min-width: 769px) and (max-width: 992px) { #messageInput { width: 420px; } }
+@media (min-width: 993px) { #messageInput { width: 640px; } }
 
 /* utility classes */
 .align-center {
