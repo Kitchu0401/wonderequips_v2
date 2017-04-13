@@ -44,8 +44,6 @@ export default class WonderEquips extends React.Component {
         // FIXME async & await 코드를 사용하여 모든 코드를 동기화 할 것
         axios.get('/api/message')
             .then((res) => {
-                console.debug("get('/api/message')", res);
-
                 this.setState({ 
                     champList: champList,
                     searchOption: update(
@@ -225,12 +223,15 @@ export default class WonderEquips extends React.Component {
      * 서버로 메시지를 전송한다.
      */
     sendMessage = (content) => {
-        console.debug('sendMessage called:', content);
-
-        // TODO send message
         axios.post('/api/message', { content: content })
-            // TODO refresh messageList
-            .then((res) => { /* this.setState({ messageList: res.messageList }); */ })
+            .then((res) => { 
+                if ( res.data.message ) {
+                    alert(res.data.message);
+                    return;
+                }
+                
+                this.setState({ messageList: res.data.messageList });
+            })
             .catch((err) => { console.error(err); });
     }
 
