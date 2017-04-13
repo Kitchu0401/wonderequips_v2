@@ -31,42 +31,38 @@ export default class WonderEquips extends React.Component {
     }
 
     componentDidMount() {
-        let champList       = data.champs;
-        let includeEmpty    = false;
+        console.log('App initialization started..');
 
-        // extract watchIds from localStorage and apply to champList
-        (JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY.WATCH_IDS)) || []).forEach((id) => {
-            champList.find((champ) => { return champ.id === id; }).watched = true;
-        });
+        Promise.all([
+            // 0. extract watchIds from localStorage and apply to champList
+            new Promise((onFurfilled, onRejected) => {
+                let champList = data.champs;
 
-        includeEmpty = localStorage.getItem(LOCAL_STORAGE_KEY.INCLUDE_EMPTY) === 'true' || false;
-
-        // FIXME async & await 코드를 사용하여 모든 코드를 동기화 할 것
-        axios.get('/api/message')
-            .then((res) => {
-                this.setState({ 
-                    champList: champList,
-                    searchOption: update(
-                        this.state.searchOption,
-                        {
-                            includeEmpty: { $set: includeEmpty }
-                        }
-                    ),
-                    messageList: res.data.messageList
+                (JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY.WATCH_IDS)) || []).forEach((id) => {
+                    champList.find((champ) => { return champ.id === id; }).watched = true;
                 });
-            })
-            .catch((err) => { console.error(err); });
-        
-        // this.setState({ 
-        //     champList: champList,
-        //     searchOption: update(
-        //         this.state.searchOption,
-        //         {
-        //             includeEmpty: { $set: includeEmpty }
-        //         }
-        //     ),
-        //     messageList: res.messageList
-        // });
+
+                onFurfilled(champList);
+            }),
+            // 1. extract includeEmpty from localStorage
+            new Promise((onFurfilled, onRejected) => {
+                onFurfilled(localStorage.getItem(LOCAL_STORAGE_KEY.INCLUDE_EMPTY) === 'true' || false);
+            }),
+            // 2. load recently saved messages from server
+            axios.get('/api/message').then((res) => { return res.data.messageList; })
+        ])
+        .then((results) => {
+            this.setState({ 
+                champList: results[0],
+                searchOption: update(
+                    this.state.searchOption,
+                    {
+                        includeEmpty: { $set: results[1] }
+                    }
+                ),
+                messageList: results[2]
+            }, () => { console.log('App initialization done.') });
+        });
     }
 
     /**
@@ -229,7 +225,7 @@ export default class WonderEquips extends React.Component {
                     alert(res.data.message);
                     return;
                 }
-                
+
                 this.setState({ messageList: res.data.messageList });
             })
             .catch((err) => { console.error(err); });
