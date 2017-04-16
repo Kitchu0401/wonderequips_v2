@@ -1,7 +1,7 @@
 /* Root Container */
 div#container-main {
     /* for Footer */
-    margin-bottom: 56px;
+    margin-bottom: 72px;
 }
 
 /* SearchOption */
@@ -48,6 +48,7 @@ span.glyphicon.glyphicon-ok {
     position: fixed;
     bottom: 50px;
     width: 100%;
+    background: white;
 }
 #messageList #messageListBtn {
     border-color: #ddd;

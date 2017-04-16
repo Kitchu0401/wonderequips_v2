@@ -58,10 +58,10 @@
     "whatwg-fetch": "2.0.2"
   },
   "scripts": {
-    "clean": "rm -rf build public/bundle.js",
-    "build": "babel server --out-dir build --presets=es2015 && webpack",
-    "start": "cross-env NODE_ENV=production node ./build/main.js",
-    "development": "cross-env NODE_ENV=development nodemon --exec babel-node --presets=es2015 ./server/main.js --watch server"
+    "development": "node scripts/development.js",
+    "build": "node scripts/build.js",
+    "start": "cross-env NODE_ENV=production babel-node --presets=es2015 server/main.js",
+    "test": "node scripts/test.js --env=jsdom"
   },
   "jest": {
     "collectCoverageFrom": [
