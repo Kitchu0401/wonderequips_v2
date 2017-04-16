@@ -9,11 +9,9 @@ const getResultListMarkups = (resultList) => {
 }
 
 const ResultList = ({ resultList }) => (
-    <div>
-        <ListGroup>
-            {getResultListMarkups(resultList)}
-        </ListGroup>
-    </div>
+    <ListGroup>
+        {getResultListMarkups(resultList)}
+    </ListGroup>
 )
 
 export default ResultList;

@@ -1,5 +1,6 @@
 import React from 'react';
-import { ListGroup, ListGroupItem, Glyphicon } from 'react-bootstrap';
+import { ListGroup, Glyphicon } from 'react-bootstrap';
+import Message from './Message';
 
 export default class MessageList extends React.Component {
     constructor(props) {
@@ -28,8 +29,8 @@ export default class MessageList extends React.Component {
                 </div>
                 <ListGroup style={this.getDisplay()}>
                     {
-                        this.props.messageList.map((msg, idx) => {
-                            return ( <ListGroupItem key={msg._id}>[{msg._id}] {msg.content}</ListGroupItem> )
+                        this.props.messageList.map((message, index) => {
+                            return ( <Message key={index} message={message} /> )
                         })
                     }    
                 </ListGroup>

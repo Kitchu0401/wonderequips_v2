@@ -58,7 +58,9 @@ span.glyphicon.glyphicon-ok {
     padding: 2px;
 }
 #messageList > .list-group { margin-bottom: 0px; }
-#messageList > .list-group > .list-group-item { border-radius: 0px; }
+#messageList > .list-group > .message { border-radius: 0px; }
+#messageList > .list-group > .message > p { margin-bottom: 0px }
+#messageList > .list-group > .message > time { margin-left: 6px; font-size: 0.8em }
 
 /* utility classes */
 .align-center {
