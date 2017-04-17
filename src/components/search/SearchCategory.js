@@ -3,7 +3,7 @@ import { Table } from 'react-bootstrap';
 
 const SearchCategory = (props) => (
     <div>
-        <Table className='selector td3' bordered>
+        <Table id='selector-category' className='selector td3' bordered>
             <tbody>
                 <tr>
                     <td onClick={() => props.selectSearchOption('part', 0)} style={{ 'fontWeight': props.getSelectedStyle('part', 0) }}>Weapon</td>

@@ -1,13 +1,16 @@
 import React from 'react';
-import axios from 'axios';
 import update from 'react-addons-update';
 import { Grid, Col } from 'react-bootstrap';
+import axios from 'axios';
+import { introJs } from 'intro.js';
+import { times } from 'lodash';
 import { Navigator, MessageList, Footer, Search, ResultList } from './index';
 import data from '../data/data';
 
 const LOCAL_STORAGE_KEY = {
     WATCH_IDS:      'wonderequips-watch-ids',
-    INCLUDE_EMPTY:  'wonderequips-include-empty'
+    INCLUDE_EMPTY:  'wonderequips-include-empty',
+    SHOW_INTRO:     'wonderequips-show-intro'
 };
 
 const defaultState = {
@@ -31,8 +34,6 @@ export default class WonderEquips extends React.Component {
     }
 
     componentDidMount() {
-        console.log('App initialization started..');
-
         Promise.all([
             // 0. extract watchIds from localStorage and apply to champList
             new Promise((onFurfilled, onRejected) => {
@@ -61,8 +62,45 @@ export default class WonderEquips extends React.Component {
                     }
                 ),
                 messageList: results[2]
-            }, () => { console.log('App initialization done.') });
+            }, this.startIntroJs);
         });
+    }
+
+    /**
+     * 튜토리얼 출력을 위한 introJs를 호출한다.
+     * 이전에 확인한 사용자의 경우 자동으로 출력하지 않는다.
+     */
+    startIntroJs = () => {
+        let showIntroJs = localStorage.getItem(LOCAL_STORAGE_KEY.SHOW_INTRO) === 'true' || false;
+        if ( !showIntroJs ) { return; }
+
+        introJs().onbeforechange((domElement) => {
+            switch (domElement.dataset.step) {
+                case '2':
+                    // Makes random searchOption
+                    let selectorCategorys   = document.querySelectorAll('#selector-category td');
+                    let selectorPatterns    = document.querySelectorAll('#selector-pattern td');
+                    let selectorElements    = document.querySelectorAll('#selector-element td');
+                    
+                    selectorCategorys[parseInt(Math.random() * selectorCategorys.length, 0)].click();
+                    times(3, () => { selectorPatterns[parseInt(Math.random() * selectorPatterns.length, 0)].click(); });
+                    selectorElements[parseInt(Math.random() * selectorElements.length, 0)].click();
+                    break;
+                case '3':
+                    // Perform search
+                    document.querySelectorAll('#selector-search td')[0].click();
+                    break;
+                case '5':
+                    // Reset search results
+                    document.querySelectorAll('#selector-search td')[1].click();
+                    break;
+                default:
+                    break;
+            }
+        }).onexit(() => {
+            // Register localStorage value to prevent repeated call
+            localStorage.setItem(LOCAL_STORAGE_KEY.SHOW_INTRO, false);
+        }).start();
     }
 
     /**
@@ -256,7 +294,7 @@ export default class WonderEquips extends React.Component {
                     toggleIncludeEmpty={this.toggleIncludeEmpty} />
                 <Grid>
                     <Col sm={12} md={10} mdOffset={1}>
-                        <Search 
+                        <Search
                             selectSearchOption={this.selectSearchOption}
                             cancleSearchPattern={this.cancleSearchPattern}
                             searchOption={searchOption}

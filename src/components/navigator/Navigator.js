@@ -11,7 +11,7 @@ const Navigator = (props) => (
     <Navbar>
         <Navbar.Header>
             <Navbar.Brand>
-                <a href="#">WonderEquips</a>
+                <a href="#" data-step='1' data-intro='WonderEquips에 어서오세요!'>WonderEquips</a>
             </Navbar.Brand>
         </Navbar.Header>
         <Nav pullRight>
@@ -20,7 +20,7 @@ const Navigator = (props) => (
                 toggleWatchId={props.toggleWatchId} />
             <NavDropdown eventKey={2} title="Setting" id="basic-nav-dropdown">
                 <MenuItem eventKey={2.1} onClick={props.toggleIncludeEmpty}>
-                    Include empty
+                    스킬 미보유 영웅 포함
                     {props.includeEmpty ? <Glyphicon glyph="ok" style={glyphiconStyle}/> : undefined}
                 </MenuItem>
             </NavDropdown>

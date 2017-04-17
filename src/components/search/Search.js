@@ -12,7 +12,7 @@ export default class Search extends Component {
         if ( this.props.searchOption.patternSelected ) {
             return (
                 <tr>
-                    <td colSpan="3">
+                    <td colSpan='3'>
                         {
                             this.props.searchOption.pattern.map((v, i) => {
                                 return times(v, (_i) => (
@@ -29,17 +29,21 @@ export default class Search extends Component {
     render() {
         return (
             <div>
-                <SearchCategory 
-                    selectSearchOption={this.props.selectSearchOption}
-                    getSelectedStyle={this.getSelectedStyle} />
-                <SearchPattern 
-                    selectSearchOption={this.props.selectSearchOption}
-                    getSelectedStyle={this.getSelectedStyle}
-                    patterns={this.getPatterns()} />
-                <SearchElement
-                    selectSearchOption={this.props.selectSearchOption}
-                    getSelectedStyle={this.getSelectedStyle} />
-                <Table className='selector' bordered>
+                <div data-step='2' data-intro='발견한 장비의 옵션을 선택하고'>
+                    <SearchCategory
+                        selectSearchOption={this.props.selectSearchOption}
+                        getSelectedStyle={this.getSelectedStyle} />
+                    <SearchPattern 
+                        selectSearchOption={this.props.selectSearchOption}
+                        getSelectedStyle={this.getSelectedStyle}
+                        patterns={this.getPatterns()} />
+                    <SearchElement
+                        selectSearchOption={this.props.selectSearchOption}
+                        getSelectedStyle={this.getSelectedStyle} />
+                </div>
+                <Table
+                    data-step='3' data-intro='검색 버튼을 눌러주세요!'
+                    id='selector-search' className='selector' bordered>
                     <tbody>
                         <tr>
                             <td onClick={() => this.props.search()}>Search</td>

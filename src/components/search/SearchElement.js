@@ -1,10 +1,9 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
-import '../WonderEquips.css'
 
 const SearchElement = (props) => (
     <div>
-        <Table className='selector td6' bordered>
+        <Table id='selector-element' className='selector td6' bordered>
             <tbody>
                 <tr>
                     <td onClick={() => props.selectSearchOption('element', -1)} style={{ 'fontWeight': props.getSelectedStyle('element', -1) }}>All</td>

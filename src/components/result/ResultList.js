@@ -9,9 +9,11 @@ const getResultListMarkups = (resultList) => {
 }
 
 const ResultList = ({ resultList }) => (
-    <ListGroup>
-        {getResultListMarkups(resultList)}
-    </ListGroup>
+    <div data-step='4' data-intro='해당 장비로 스킬을 언락 할 수 있는<br/>영웅의 목록이 나타납니다!' data-position='top'>
+        <ListGroup>
+            {getResultListMarkups(resultList)}
+        </ListGroup>
+    </div>
 )
 
 export default ResultList;

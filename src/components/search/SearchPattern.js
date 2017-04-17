@@ -3,7 +3,7 @@ import { Table } from 'react-bootstrap';
 
 const SearchPattern = (props) => (
     <div>
-        <Table className='selector td3' bordered>
+        <Table id='selector-pattern' className='selector td3' bordered>
             <tbody>
                 <tr>
                     <td onClick={() => props.selectSearchOption('pattern', 0)} style={{ 'fontWeight': props.getSelectedStyle('pattern', 0) }}>Circle</td>

@@ -42,7 +42,7 @@ export default class WatchListModal extends React.Component {
 
     render() {
         return (
-            <NavItem eventKey={1} onClick={() => this.toggleShow()}>
+            <NavItem data-step='5' data-intro='보유한 영웅을 즐겨찾기하여 목록 상단에서 볼 수 있어요!' eventKey={1} onClick={() => this.toggleShow()}>
                 Watched 
                 <Badge style={{ 'marginLeft': '6px' }}>
                     { 
