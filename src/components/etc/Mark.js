@@ -6,8 +6,13 @@ const getImgPath = (pattern) => {
     return `${process.env.PUBLIC_URL}/image/${patterns[pattern]}.png`;
 };
 
+const handleOnclick = (callback, pattern) => {
+    if ( !callback || typeof callback !== 'function' ) { return; }
+    callback(pattern);
+}
+
 const Mark = ({ pattern, cancleSearchPattern }) => (
-    <Image src={getImgPath(pattern)} alt='Pattern' onClick={() => { cancleSearchPattern(pattern); }} />
+    <Image src={getImgPath(pattern)} alt='Pattern' onClick={() => { handleOnclick(cancleSearchPattern, pattern); }} />
 );
 
 export default Mark;
