@@ -11,7 +11,7 @@ import path                 from 'path';
 import route                from './routes/route';
 
 const app                   = express();
-const port                  = 3000;
+const port                  = 8080;
 const devPort               = 4000;
 
 // Setting up middleware: body-parser
