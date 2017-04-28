@@ -3,6 +3,7 @@ import session              from 'express-session';
 import webpack              from 'webpack';
 import WebpackDevServer     from 'webpack-dev-server';
 import mongoose             from 'mongoose';
+import fs                   from 'fs';
 
 import morgan               from 'morgan';
 import bodyParser           from 'body-parser';
@@ -11,8 +12,16 @@ import path                 from 'path';
 import route                from './routes/route';
 
 const app                   = express();
-const port                  = 8080;
-const devPort               = 4000;
+let port                    = 8080;
+let devPort                 = 4000;
+
+// Port initialization
+try {
+    const configFilePath = '../config.json';
+    port = JSON.parse(fs.readFileSync(configFilePath, 'utf-8'))['wonderequips_v2'] || port;
+} catch(err) {
+    console.error(err, 'Using default port: ' + port);
+}
 
 // Setting up middleware: body-parser
 app.use(morgan('dev'));
