@@ -58,7 +58,8 @@ function getPublicUrl(appPackageJson) {
 function getServedPath(appPackageJson) {
   var publicUrl = getPublicUrl(appPackageJson);
   var servedUrl = envPublicUrl || (
-    publicUrl ? url.parse(publicUrl).pathname : '/'
+    // MODIFIED: serving resources from application path
+    publicUrl ? url.parse(publicUrl).pathname : '/WonderEquips'
   );
   return ensureSlash(servedUrl, true);
 }
