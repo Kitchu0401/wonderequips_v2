@@ -2,14 +2,20 @@
 
 import axios from 'axios';
 
+// Configuring axios instance
+const instance = axios.create({
+    baseUrl: '/WonderEquips/api',
+    timeout: 2500
+});
+
 export function insertLog() {
-    return axios.post('/api/log', { type: 'Search' });
+    return instance.post('/log', { type: 'Search' });
 }
 
 export function getMessageList() {
-    return axios.get('/api/message');
+    return instance.get('/message');
 }
 
 export function insertMessage(content) {
-    return axios.post('/api/message', { content: content });
+    return instance.post('/message', { content: content });
 }
