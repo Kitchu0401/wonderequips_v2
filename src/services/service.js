@@ -11,13 +11,13 @@ const baseUrl = '/WonderEquips/api';
 // });
 
 export function insertLog() {
-    return instance.post(`${baseUrl}/log`, { type: 'Search' });
+    return axios.post(`${baseUrl}/log`, { type: 'Search' });
 }
 
 export function getMessageList() {
-    return instance.get(`${baseUrl}/message`);
+    return axios.get(`${baseUrl}/message`);
 }
 
 export function insertMessage(content) {
-    return instance.post(`${baseUrl}/message`, { content: content });
+    return axios.post(`${baseUrl}/message`, { content: content });
 }
