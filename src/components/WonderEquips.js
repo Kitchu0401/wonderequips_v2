@@ -1,7 +1,7 @@
 import React from 'react';
 import update from 'react-addons-update';
+import * as service from '../services/service';
 import { Grid, Col } from 'react-bootstrap';
-import axios from 'axios';
 import { introJs } from 'intro.js';
 import { times } from 'lodash';
 import { Navigator, MessageList, Footer, Search, ResultList } from './index';
@@ -50,7 +50,7 @@ export default class WonderEquips extends React.Component {
                 onFurfilled(localStorage.getItem(LOCAL_STORAGE_KEY.INCLUDE_EMPTY) === 'true' || false);
             }),
             // 2. load recently saved messages from server
-            axios.get('/api/message').then((res) => { return res.data.messageList; })
+            service.getMessageList().then((res) => { return res.data.messageList; })
         ])
         .then((results) => {
             this.setState({ 
@@ -211,7 +211,7 @@ export default class WonderEquips extends React.Component {
         if ( !this.state.searchOption.patternSelected ) { return; }
 
         // Send log to server before search.
-        axios.post('/api/log', { type: 'Search' });
+        service.insertLog();
 
         let resultList = [];
 
@@ -257,7 +257,7 @@ export default class WonderEquips extends React.Component {
      * 서버로 메시지를 전송한다.
      */
     sendMessage = (content) => {
-        axios.post('/api/message', { content: content })
+        service.insertMessage(content)
             .then((res) => { 
                 if ( res.data.message ) {
                     alert(res.data.message);

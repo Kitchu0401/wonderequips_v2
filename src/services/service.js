@@ -2,10 +2,14 @@
 
 import axios from 'axios';
 
-export function getPost(postId) {
-    return axios.get('https://jsonplaceholder.typicode.com/posts/' + postId);
+export function insertLog() {
+    return axios.post('/api/log', { type: 'Search' });
 }
 
-export function getComments(postId) {
-    return axios.get(`https://jsonplaceholder.typicode.com/posts/${postId}/comments`)
+export function getMessageList() {
+    return axios.get('/api/message');
+}
+
+export function insertMessage(content) {
+    return axios.post('/api/message', { content: content });
 }
