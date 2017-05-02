@@ -2,22 +2,20 @@
 
 import axios from 'axios';
 
-const baseUrl = '/WonderEquips/api';
-
 // Configuring axios instance
-// const instance = axios.create({
-//     baseUrl: '/WonderEquips/api',
-//     timeout: 2500
-// });
+const instance = axios.create({
+    baseURL: '/WonderEquips/api',
+    timeout: 2500
+});
 
 export function insertLog() {
-    return axios.post(`${baseUrl}/log`, { type: 'Search' });
+    return instance.post('/log', { type: 'Search' });
 }
 
 export function getMessageList() {
-    return axios.get(`${baseUrl}/message`);
+    return instance.get('/message');
 }
 
 export function insertMessage(content) {
-    return axios.post(`${baseUrl}/message`, { content: content });
+    return instance.post('/message', { content: content });
 }
