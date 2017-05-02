@@ -12,7 +12,7 @@ import path                 from 'path';
 import route                from './routes/route';
 
 const app                   = express();
-let port                    = 8080;
+let port                    = 3000;
 let devPort                 = 4000;
 
 // Port initialization

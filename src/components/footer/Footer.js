@@ -1,46 +1,20 @@
 import React from 'react';
-import { Navbar, Nav, NavItem, FormGroup, InputGroup, Button, FormControl } from 'react-bootstrap';
+import { Navbar, Nav, NavItem } from 'react-bootstrap';
+import { MessageListModal } from '../index';
 
-export default class Footer extends React.Component {
-    
-    handleKeyPress = (e) => {
-        if ( e.key === 'Enter' ) {
-            if ( this.messageInput.value.length <= 0 ) { return; }
-            this.props.sendMessage(this.messageInput.value);
-            this.messageInput.value = '';    
-        }
-    };
+const Footer = ({ messageList, sendMessage }) => (
+    <Navbar className="no-collapse" fixedBottom>
+        <Nav pullLeft>
+            <NavItem>
+                Written by <strong>Kitchu</strong>
+            </NavItem>
+        </Nav>
+        <Nav pullRight>
+            <MessageListModal
+                messageList={messageList}
+                sendMessage={sendMessage} />
+        </Nav>
+    </Navbar>
+);
 
-    handleClickButton = (e) => {
-        if ( this.messageInput.value.length <= 0 ) { return; }
-        this.props.sendMessage(this.messageInput.value);
-        this.messageInput.value = '';
-    }
-
-    render() {
-        return (
-            <Navbar fixedBottom>
-                <Navbar.Form pullLeft>
-                    <FormGroup>
-                        <InputGroup>
-                            <FormControl 
-                                id="messageInput"
-                                type="text"
-                                placeholder="Leave message"
-                                inputRef={ (ref) => { this.messageInput = ref; } }
-                                onKeyPress={this.handleKeyPress} />
-                            <InputGroup.Button>
-                                <Button type="button" onClick={this.handleClickButton}>Send</Button>
-                            </InputGroup.Button>
-                        </InputGroup>
-                    </FormGroup>
-                </Navbar.Form>
-                <Nav pullRight>
-                    <NavItem>
-                        Written by <strong>Kitchu</strong>
-                    </NavItem>
-                </Nav>
-            </Navbar>
-        );
-    }
-};
+export default Footer;

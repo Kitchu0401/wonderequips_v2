@@ -53,15 +53,12 @@ export default class WatchListModal extends React.Component {
                 </Badge>
 
                 <Modal show={this.state.show} onHide={this.toggleShow}>
-                    <Modal.Header closeButton>
+                    <Modal.Body>
                         <FieldGroup
                             id="champName"
                             type="text"
-                            label="Text"
-                            placeholder="Champion name search:"
+                            label="Champion name search:"
                             onChange={this.handleWatchListChange} />
-                    </Modal.Header>
-                    <Modal.Body>
                         <ListGroup >
                             {  
                                 this.props.champList

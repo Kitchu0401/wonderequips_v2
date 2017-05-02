@@ -8,23 +8,26 @@ const glyphiconStyle = {
 };
 
 const Navigator = (props) => (
-    <Navbar>
+    <Navbar collapseOnSelect>
         <Navbar.Header>
             <Navbar.Brand>
                 <a href="#" data-step='1' data-intro='WonderEquips에 어서오세요!'>WonderEquips</a>
             </Navbar.Brand>
+            <Navbar.Toggle />
         </Navbar.Header>
-        <Nav pullRight>
-            <WatchListModal
-                champList={props.champList}
-                toggleWatchId={props.toggleWatchId} />
-            <NavDropdown eventKey={2} title="Setting" id="basic-nav-dropdown">
-                <MenuItem eventKey={2.1} onClick={props.toggleIncludeEmpty}>
-                    스킬 미보유 영웅 포함
-                    {props.includeEmpty ? <Glyphicon glyph="ok" style={glyphiconStyle}/> : undefined}
-                </MenuItem>
-            </NavDropdown>
-        </Nav>
+        <Navbar.Collapse>
+            <Nav pullRight>
+                <WatchListModal
+                    champList={props.champList}
+                    toggleWatchId={props.toggleWatchId} />
+                <NavDropdown eventKey={2} title="Setting" id="basic-nav-dropdown">
+                    <MenuItem eventKey={2.1} onClick={props.toggleIncludeEmpty}>
+                        스킬 미보유 영웅 포함
+                        {props.includeEmpty ? <Glyphicon glyph="ok" style={glyphiconStyle}/> : undefined}
+                    </MenuItem>
+                </NavDropdown>
+            </Nav>
+        </Navbar.Collapse>
     </Navbar>
 );
 

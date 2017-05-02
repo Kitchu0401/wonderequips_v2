@@ -4,7 +4,7 @@ import * as service from '../services/service';
 import { Grid, Col } from 'react-bootstrap';
 import { introJs } from 'intro.js';
 import { times } from 'lodash';
-import { Navigator, MessageList, Footer, Search, ResultList } from './index';
+import { Navigator, Footer, Search, ResultList } from './index';
 import data from '../data/data';
 
 const LOCAL_STORAGE_KEY = {
@@ -303,8 +303,9 @@ export default class WonderEquips extends React.Component {
                         <ResultList resultList={resultList} />
                     </Col>
                 </Grid>
-                <MessageList messageList={messageList} />
-                <Footer sendMessage={this.sendMessage} />
+                <Footer 
+                    messageList={messageList}
+                    sendMessage={this.sendMessage} />
             </div>
         );
     }

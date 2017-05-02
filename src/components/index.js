@@ -10,8 +10,9 @@ import ResultList from './result/ResultList';
 import Result from './result/Result';
 // import FieldGroup from './etc/FieldGroup';
 import Mark from './etc/Mark';
+import MessageListModal from './modal/MessageListModal';
 import WatchListModal from './modal/WatchListModal';
-import SendMessageModal from './modal/SendMessageModal';
+// import SendMessageModal from './modal/SendMessageModal';
 
 export {
     Navigator,
@@ -26,6 +27,7 @@ export {
     Result,
     // FieldGroup,
     Mark,
+    MessageListModal,
     WatchListModal,
-    SendMessageModal
+    // SendMessageModal
 };

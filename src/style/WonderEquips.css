@@ -17,50 +17,43 @@ table.selector.td3 td img {
     margin: 8px;
 }
 
-.result span { margin-right: 16px; }
-.result span.grade img { width: 16px; height: 16px; }
+/* ResultList */
+span.result.list-group-item { padding: 10px 6px; }
+span.result span { margin-right: 16px; }
+span.result span.grade img { width: 16px; height: 16px; }
 
 /* SkillList */
 div.skill {
     display: inline-block;
-    margin: 12px 8px;
+    margin: 12px 4px;
     width: 20%;
-    min-width: 120px;
+    min-width: 96px;
+}
+div.skill .panel-heading,
+div.skill .panel-body {
+    padding: 15px 6px;
 }
 div.skill img {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     margin-right: 6px;
 }
+div.skill img:last-child {
+    margin-right: 0px;
+}
+
+/* none-collapsable navbar */
+.no-collapse .navbar-collapse.collapse { display: block !important; }
+.no-collapse .navbar-nav > li, 
+.no-collapse .navbar-nav { float: left !important; }
+.no-collapse .navbar-nav.navbar-right:last-child { margin-right: -15px !important; }
+.no-collapse .navbar-right { float: right!important; }
 
 /* Etc */
 span.glyphicon.glyphicon-ok {
     color: green;
     float: right;
 }
-
-/* Footer Navbar */
-@media (min-width: 769px) and (max-width: 992px) { #messageInput { width: 420px; } }
-@media (min-width: 993px) { #messageInput { width: 640px; } }
-
-/* Footer MessageList */
-#messageList {
-    position: fixed;
-    bottom: 50px;
-    width: 100%;
-    background: white;
-}
-#messageList #messageListBtn {
-    border-color: #ddd;
-    border-style: solid;
-    border-width: 1px 0px 0px 0px;
-    cursor: pointer;
-    padding: 2px;
-}
-#messageList > .list-group { margin-bottom: 0px; }
-#messageList > .list-group > .message { border-radius: 0px; }
-#messageList > .list-group > .message > p { margin-bottom: 0px }
-#messageList > .list-group > .message > time { margin-left: 6px; font-size: 0.8em }
 
 /* utility classes */
 .align-center {
