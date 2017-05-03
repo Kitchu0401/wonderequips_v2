@@ -99,6 +99,7 @@ router.post('/champ', function(req, res) {
                     Champ.find().exec().then(function(champList) {
                         res.json({
                             result: 1,
+                            count: champList.length,
                             champList: champList
                         });
                     });
@@ -122,6 +123,7 @@ router.post('/champ', function(req, res) {
                     Champ.find().exec().then(function(champList) {
                         res.json({
                             result: 1,
+                            count: champList.length,
                             champList: champList
                         });
                     });
@@ -146,6 +148,7 @@ router.get('/champ', function(req, res) {
     .then(function(champList) {
         res.json({
             result: 1,
+            count: champList.length,
             champList: champList
         });
     })

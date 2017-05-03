@@ -38,6 +38,7 @@ app.use(session({
 // Serving static files
 // app.use(express.static('./../public'));
 app.use('/', express.static(path.join(__dirname, './../build')));
+app.use('/admin', express.static(path.join(__dirname, './../build')));
 app.use('/api', route);
 
 const db = mongoose.connection;

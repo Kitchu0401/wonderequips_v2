@@ -161,7 +161,7 @@ export default class WonderEquips extends React.Component {
         // 문양의 경우 i:종류, v:숫자의 배열로 처리
         if ( prop === 'pattern' ) {
             let sum = this.state.searchOption.pattern.reduce((p, c) => { return p + c; }, 0);
-            if ( sum >= 3 ) { return; }
+            if ( sum >= 4 ) { return; }
 
             this.setState({ 
                 searchOption: update(

@@ -12,7 +12,7 @@ import mongoose from 'mongoose';
 var champSchema = new mongoose.Schema({
     id: Number,
     element: Number,
-    skill: [[]],
+    skill: [mongoose.Schema.Types.Mixed],
     name: String, 
     grade: Number,
     type: Number

@@ -38,9 +38,7 @@ div.skill img {
     height: 20px;
     margin-right: 6px;
 }
-div.skill img:last-child {
-    margin-right: 0px;
-}
+div.skill :last-child { margin-right: 0px; }
 
 /* none-collapsable navbar */
 .no-collapse .navbar-collapse.collapse { display: block !important; }

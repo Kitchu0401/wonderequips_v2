@@ -88,7 +88,12 @@ module.exports = {
   },
   devServer: {
     proxy: {
-      // "/api": "http://localhost:3000"
+      '/WonderEquips/admin': {
+        target: 'http://localhost:3000',
+        pathRewrite: {
+          '/WonderEquips': ''
+        }
+      },
       '/WonderEquips/api': {
         target: 'http://localhost:3000',
         pathRewrite: {
