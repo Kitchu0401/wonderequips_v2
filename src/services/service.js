@@ -1,5 +1,3 @@
-// import axios from 'axios';
-
 import axios from 'axios';
 
 // Configuring axios instance
@@ -18,4 +16,8 @@ export function getMessageList() {
 
 export function insertMessage(content) {
     return instance.post('/message', { content: content });
+}
+
+export function getChampList() {
+    return instance.get('/champ');
 }

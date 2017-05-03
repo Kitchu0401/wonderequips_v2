@@ -1,6 +1,7 @@
 import express from 'express';
 import Log from './../models/log';
 import Message from './../models/message';
+import Champ from './../models/champ';
 import Test from './../models/test';
 
 const router = express.Router();
@@ -19,7 +20,6 @@ router.post('/log', function(req, res) {
         if ( err ) {
             console.error(err);
             res.json(RESPONSE_COMMON_FAILURE);
-            return;
         }
 
         res.json(RESPONSE_COMMON_SUCCESS);
@@ -32,7 +32,6 @@ router.post('/message', function(req, res) {
     var last_published_date = req.session.last_published_date;
     if ( last_published_date && last_published_date + MESSAGE_INTERVAL > Date.now() ) {
         res.json({ result: 0, message: 'There\'s message recently sent!' });
-        return;
     }
 
     // set session attribute
@@ -69,13 +68,89 @@ router.get('/message', function(req, res) {
     Message.find().limit(5).sort({ published_date: -1 }).exec(function(err, messageList) {
         if ( err ) { 
             res.json(RESPONSE_COMMON_FAILURE);
-            return;
         }
 
         res.json({ 
             result: 1,
             messageList: messageList
         });
+    });
+});
+
+// Champ: insert (Off from front-end)
+router.post('/champ', function(req, res) {
+    try {
+        var data = JSON.parse(req.body.champString);
+
+        // insert one document
+        if ( Array.isArray(data) ) {
+            Champ.remove(function(err) {
+                if ( err ) {
+                    console.error(err);
+                    throw 'An error occured during removing documents!';
+                }
+
+                Champ.insertMany(data, function(err, docs) {
+                    if ( err ) { 
+                        console.error(err);
+                        throw 'An error occured during saving documents!';
+                    }
+
+                    Champ.find().exec().then(function(champList) {
+                        res.json({
+                            result: 1,
+                            champList: champList
+                        });
+                    });
+                });
+            });
+        }
+        // insert multiple documnets
+        else if ( typeof data === 'object' ) {
+            Champ.remove(function(err) {
+                if ( err ) {
+                    console.error(err);
+                    throw 'An error occured during removing documents!';
+                }
+
+                new Champ(data).save(function(err) {
+                    if ( err ) {
+                        console.error(err);
+                        throw 'An error occured during saving documents!';
+                    }
+
+                    Champ.find().exec().then(function(champList) {
+                        res.json({
+                            result: 1,
+                            champList: champList
+                        });
+                    });
+                });
+            });
+
+        }
+        else {
+            throw 'Invalid parameter type: ' + typeof data;
+        }
+    } catch(err) {
+        console.error(err);
+        res.json(RESPONSE_COMMON_FAILURE);
+    }
+});
+
+// Champ: select
+router.get('/champ', function(req, res) {
+    Champ
+    .find()
+    .exec()
+    .then(function(champList) {
+        res.json({
+            result: 1,
+            champList: champList
+        });
+    })
+    .catch(function(err) {
+        res.json(RESPONSE_COMMON_FAILURE);
     });
 });
 
@@ -93,7 +168,6 @@ router.post('/test', function(req, res) {
                 .then(function(found) { res.json({ data: found }); })
         })
         .catch(function(err) { console.error(err); })
-        
 });
 
 module.exports = router;

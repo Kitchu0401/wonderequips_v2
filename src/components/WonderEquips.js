@@ -5,7 +5,6 @@ import { Grid, Col } from 'react-bootstrap';
 import { introJs } from 'intro.js';
 import { times } from 'lodash';
 import { Navigator, Footer, Search, ResultList } from './index';
-import data from '../data/data';
 
 const LOCAL_STORAGE_KEY = {
     WATCH_IDS:      'wonderequips-watch-ids',
@@ -37,13 +36,16 @@ export default class WonderEquips extends React.Component {
         Promise.all([
             // 0. extract watchIds from localStorage and apply to champList
             new Promise((onFurfilled, onRejected) => {
-                let champList = data.champs;
+                // load champList from server
+                service.getChampList().then((res) => { 
+                    let champList = res.data.champList;
+                    
+                    (JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY.WATCH_IDS)) || []).forEach((id) => {
+                        champList.find((champ) => { return champ.id === id; }).watched = true;
+                    });
 
-                (JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY.WATCH_IDS)) || []).forEach((id) => {
-                    champList.find((champ) => { return champ.id === id; }).watched = true;
+                    onFurfilled(champList);
                 });
-
-                onFurfilled(champList);
             }),
             // 1. extract includeEmpty from localStorage
             new Promise((onFurfilled, onRejected) => {

@@ -1,6 +1,6 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose from 'mongoose';
 
-var logSchema = new Schema({
+var logSchema = new mongoose.Schema({
     type: String,
     published_date: { type: Date, default: Date.now  }
 });
