@@ -2,6 +2,7 @@ import express from 'express';
 import Log from './../models/log';
 import Message from './../models/message';
 import Champ from './../models/champ';
+import Setting from './../models/setting';
 import Test from './../models/test';
 
 const router = express.Router();
@@ -153,6 +154,22 @@ router.get('/champ', function(req, res) {
         });
     })
     .catch(function(err) {
+        res.json(RESPONSE_COMMON_FAILURE);
+    });
+});
+
+// AuthAdmin:
+router.get('/authAdmin/:value', function(req, res) {
+    let value = req.params.value;
+
+    Setting
+    .findOne({ name: 'authAdmin' })
+    .exec()
+    .then(function(setting) {
+        res.json(value === setting.value ? RESPONSE_COMMON_SUCCESS : RESPONSE_COMMON_FAILURE);
+    })
+    .catch(function(err) {
+        console.error(err);
         res.json(RESPONSE_COMMON_FAILURE);
     });
 });

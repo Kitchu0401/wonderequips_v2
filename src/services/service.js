@@ -21,3 +21,14 @@ export function insertMessage(content) {
 export function getChampList() {
     return instance.get('/champ');
 }
+
+export function authAdmin(value) {
+    instance.get(`/authAdmin/${value}`)
+    .then((res) => { 
+        return res.data.result === 1;
+     })
+    .catch((err) => {
+        console.error(err);
+        return false;
+    });
+}
